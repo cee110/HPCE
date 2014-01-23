@@ -1,4 +1,4 @@
-function [] = test_renderer(renderer);
+function [] = test_renderer(renderer)
 % test_renderer checks that a renderer is functionally correct,
 % by checking it against the reference render_julia function
 % for various (w,h,c,maxiter) test?points.
@@ -7,3 +7,4 @@ function [] = test_renderer(renderer);
 % against execution time.
 % The function should fail using assert if any test fails, or
 % run to completion otherwise.
+end

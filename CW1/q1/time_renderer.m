@@ -1,4 +1,4 @@
-function [t,n,w,h,c,maxiter] = time_renderer(renderer,w,h,c,maxiter)
+function [T,N,W,H,c,maxiter] = time_renderer(renderer,varargin)
 % time_renderer measures execution time for varying input parameters
 % renderer : handle to a function with signature ...
 % renderer(w,h,maxiter)
@@ -14,33 +14,51 @@ function [t,n,w,h,c,maxiter] = time_renderer(renderer,w,h,c,maxiter)
 % n : Total pixels for each frame
 % w,h,c,maxiter : Parameters corresponding to each frame.
 
-if nargin < 1
-    w = (2.^(4:0.5:10));
-end
 if nargin < 2
-    h = w;
+    w = (2.^(4:0.5:10));
+else
+    w = varargin(1);
 end
 if nargin < 3
-    c = sqrt(2);
+    h = w;
+else
+    h = varargin(2);
 end
 if nargin < 4
+    c = sqrt(2);
+else
+    c = varargin(3);
+end
+if nargin < 5
     maxiter = 64;
+else
+    maxiter = varargin(4);
 end
 
-%naive implementation
-%
-for i = 1:maxiter
-    for j = 1:size(w,1)
-        for k = 1:size(h,1)
-            id = tic();
-            render_julia(w,h,c, maxiter);
-            t = toc(id);
-            n = w*h;
-        end
-    end
-    id = tic();
-    
-    
+%vectorised implementation
+% Create empty vectors for output
+% Create a combination of w's and h's
+wlen = length(w);
+hlen = length(h);
+wbar = kron(w, ones(1,hlen));
+wbar = ceil(wbar);
+hbar = repmat(h, [1, wlen]);
+hbar = ceil(hbar);
+cbar = repmat(c, [1, wlen*hlen]);
+cbar = ceil(cbar);
+maxiterbar = repmat(maxiter, [1, wlen*hlen]);
+
+
+
+% Define closure function
+function[t,n,w,h,c,maxiter] = calc_render(w,h,c,maxiter)
+%Expects scalar quantities
+id = tic();
+renderer(w,h,c,maxiter);
+t = toc(id);
+n = w*h;
 end
+
+[T,N,W,H,c,maxiter] = arrayfun(@(A,B,C,D)calc_render(A,B,C,D), wbar, hbar, cbar, maxiterbar);
 
 end
