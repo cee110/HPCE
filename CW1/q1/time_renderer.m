@@ -40,12 +40,13 @@ end
 % Create a combination of w's and h's
 wlen = length(w);
 hlen = length(h);
-wbar = kron(w, ones(1,hlen));
-wbar = ceil(wbar);
+wbar = repmat(w, ones(1,hlen));
+wbar = wbar(:)';
+wbar = ceil(cell2mat(wbar));
 hbar = repmat(h, [1, wlen]);
-hbar = ceil(hbar);
+hbar = ceil(cell2mat(hbar));
 cbar = repmat(c, [1, wlen*hlen]);
-cbar = ceil(cbar);
+cbar = ceil(cell2mat(cbar));
 maxiterbar = repmat(maxiter, [1, wlen*hlen]);
 
 
