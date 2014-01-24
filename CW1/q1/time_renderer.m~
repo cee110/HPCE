@@ -17,17 +17,17 @@ function [T,N,W,H,c,maxiter] = time_renderer(renderer,varargin)
 if nargin < 2
     w = (2.^(4:0.5:10));
 else
-    w = varargin{1,1};
+    w = varargin(1);
 end
 if nargin < 3
     h = w;
 else
-    h = varargin{1,2};
+    h = varargin(2);
 end
 if nargin < 4
     c = sqrt(2);
 else
-    c = varargin{1,3};
+    c = varargin(3);
 end
 if nargin < 5
     maxiter = 64;
@@ -40,16 +40,16 @@ end
 % either one input c or two w and h
 function[t,n,wt,ht] = calc_render(varargin)
     if nargin == 1
-        wt = w; ht = h; ct = varargin{1,1};
+        wt = w; ht = h; ct = varargin;
     end
     if nargin == 2
-        wt = varargin{1,1}; ht = varargin{1,2}; ct = c;
+        wt = varargin(1); ht = varargin(2); ct = c;
     end
-    %suppress size warning
-    ct = ceil(ct);
-    wt = ceil(wt);
-    ht = ceil(ht);
     
+    %convert to matrix
+    ct = cell2mat(ct);
+    wt = cell2mat(wt{1, 1});
+    ht = cell2mat(ht{1, 1});
     %Expects scalar quantities
     id = tic();
     renderer(wt,ht,ct,maxiter);
@@ -57,7 +57,7 @@ function[t,n,wt,ht] = calc_render(varargin)
     n = wt*ht;
 end
 
-if length(c) == 1 %i.e c is a scalar 
+if size(c,2) == 1 %i.e c is a scalar 
     [T,N,W,H] = arrayfun(@(A,B)calc_render(A,B), w, h);
 else
     [T,N,W,H] = arrayfun(@(A)calc_render(A), c);
