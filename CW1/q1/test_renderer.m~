@@ -20,14 +20,15 @@ w = 2:14:128;
 h = w;
 c = 0:0.05:1;
 maxiter = 64;
-function [] = run_render0(wt,ht)
+function [] = run_render0(wt,ht, ct)
+    
     function [] = run_render1(ct)
-    assert(isequal(renderer(wt,ht,ct,maxiter),render_julia(wt,ht,ct,maxiter)),...
-    'render is incorrect');
+    assert(renderer == render_julia(wt,ht,ct,maxiter));
     end
-    arrayfun(@(A)(run_render1(A)), c);
+
+    assert(renderer == render_julia(wt,ht,ct,maxiter));
 end
 
-arrayfun(@(A,B)(run_render0(A,B)),w,h);
+
 
 end
