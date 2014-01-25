@@ -1,9 +1,14 @@
-function [pixels]=render_julia_v1(w,h,c, maxiter)
-
-if nargin < 3
+function [pixels]=render_julia_v2(juliaproc, w,h,c, maxiter)
+% render_julia_v2 : Renders julia set using a specified iteration .../
+% procedure
+% juliaproc : A function of the form [viter,vz] = juliaproc(vz, ...
+% c, maxiter)
+% where vz can be a vector.
+% w,h,c,maxiter : Standard rendering controls
+if nargin < 4
     c = 0.5+0.5i;
 end
-if nargin < 4
+if nargin < 5
     maxiter=16;
 end
 
@@ -20,9 +25,10 @@ function [pixels] = main(w, h)
     for x=1:w
         for y=1:h
             z = (ox+x*dx) + (oy+y*dy)*i;
-            pixels(y,x) = julia_v1(z, c, maxiter);
+            pixels(y,x) = juliaproc(z, c, maxiter);
         end
     end
 end
 pixels = arrayfun(@(A,B)main(A,B), w, h, 'un', 0);
+pixels = pixels{1,1};
 end

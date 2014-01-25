@@ -1,4 +1,4 @@
-function [iter,z] = julia_v1(z, c, maxiter)
+function [iter,z] = julia_v2(z, c, maxiter)
 
 
     function [iter, zt] = main_func(zt, ct)

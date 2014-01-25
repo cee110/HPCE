@@ -1,12 +1,17 @@
-function [] = animate_julia_v2( w, h, maxiter )
+function [] = animate_julia_v2(renderer, w, h, maxiter )
+% animate_julia_v2 : Animates julia set using the given rendering ...
+% procedure
+% renderer : A function of the form ...
+% [pixels]=renderer(w,h,c,maxiter).
+% w,h,maxiter : Standard rendering controls
 
-if nargin<1
+if nargin<2
    w=128; 
 end
-if nargin<2
+if nargin<3
     h=w;
 end
-if nargin < 3
+if nargin < 4
     maxiter=16;
 end
 
