@@ -1,13 +1,15 @@
 function [iter,z] = julia_v2(z, c, maxiter)
 
-
     function [iter, zt] = main_func(zt, ct)
         iter=1;
         while iter < maxiter
-            if abs(zt) > 1
+            
+            if (all(abs(zt) > 1))
                 break;
             end
-           zt=zt^2 + ct; 
+            
+           zt=zt.^2 + ct;
+           
            iter=iter+1;
         end
     end

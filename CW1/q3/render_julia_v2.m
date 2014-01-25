@@ -5,6 +5,8 @@ function [pixels]=render_julia_v2(juliaproc, w,h,c, maxiter)
 % c, maxiter)
 % where vz can be a vector.
 % w,h,c,maxiter : Standard rendering controls
+
+% TODO: Document difference in code time
 if nargin < 4
     c = 0.5+0.5i;
 end

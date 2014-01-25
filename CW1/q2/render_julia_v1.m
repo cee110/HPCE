@@ -25,4 +25,5 @@ function [pixels] = main(w, h)
     end
 end
 pixels = arrayfun(@(A,B)main(A,B), w, h, 'un', 0);
+pixels = pixels{1,1};
 end
