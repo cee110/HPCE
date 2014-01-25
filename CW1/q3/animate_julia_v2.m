@@ -1,4 +1,4 @@
-function [] = animate_julia_v1( w, h, maxiter )
+function [] = animate_julia_v2( w, h, maxiter )
 
 if nargin<1
    w=128; 
