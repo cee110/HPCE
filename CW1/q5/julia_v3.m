@@ -6,8 +6,7 @@ function [Iters,vz] = julia_v3(vz, c, maxiter)
         if (all(mask))
             break;
         end
-        temp =vz.^2 + c;
-        vz(~mask) = temp(~mask);
+        vz(~mask)=vz(~mask).^2 + c;
         Iters(~mask) = iter;
         iter=iter+1;
     end

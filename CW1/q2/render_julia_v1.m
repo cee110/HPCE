@@ -7,23 +7,19 @@ if nargin < 4
     maxiter=16;
 end
 
-function [pixels] = main(w, h)
-    pixels=zeros(w,h);
+pixels=zeros(w,h);
 
-    i=sqrt(-1); % Not really necessary, defined by default
+i=sqrt(-1); % Not really necessary, defined by default
 
-    ox=-1;
-    dx=2/w;
-    oy=-1;
-    dy=2/h;
+ox=-1;
+dx=2/w;
+oy=-1;
+dy=2/h;
 
-    for x=1:w
-        for y=1:h
-            z = (ox+x*dx) + (oy+y*dy)*i;
-            pixels(y,x) = julia_v1(z, c, maxiter);
-        end
-    end
+y=1:h;
+
+for x=1:w        
+    z = (ox+x*dx) + (oy+y.*dy)*i;
+    pixels(y,x) = julia_v1(z, c, maxiter);
 end
-pixels = arrayfun(@(A,B)main(A,B), w, h, 'un', 0);
-pixels = pixels{1,1};
 end
